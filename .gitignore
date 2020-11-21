@@ -18,3 +18,4 @@
 .idea
 .DS_Store
 /public/uploads
+/config/secrets/dev
