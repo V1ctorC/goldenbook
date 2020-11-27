@@ -105,10 +105,17 @@ class Comment
         return $this->createdAt;
     }
 
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
     /**
      * @ORM\PrePersist
      */
-    public function setCreatedAt()
+    public function setCreatedAtValue()
     {
         $this->createdAt = new \DateTime();
     }
