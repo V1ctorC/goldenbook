@@ -15,6 +15,21 @@ class ConferenceControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h2', 'Give your feedback !');
     }
 
+    public function testCommentSubmission()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/conference/madrid-2018');
+        $client->submitForm('Submit', [
+            'comment_form[author]' => 'Jacques',
+            'comment_form[text]' => 'Some feedback from an automated functional test',
+            'comment_form[email]' => 'me@automat.ed',
+            'comment_form[photo]' => dirname(__DIR__, 2).'/public/images/under-construction.gif',
+        ]);
+        $this->assertResponseRedirects();
+        $client->followRedirect();
+        $this->assertSelectorExists('div:contains("There are 1 comments")');
+    }
+
     public function testConferencePage()
     {
         $client = static::createClient();
@@ -31,18 +46,5 @@ class ConferenceControllerTest extends WebTestCase
         $this->assertSelectorExists('p:contains("No comment for this conference.")');
     }
 
-    public function testCommentSubmission()
-    {
-        $client = static::createClient();
-        $client->request('GET', '/conference/amsterdam-2019');
-        $client->submitForm('Submit', [
-            'comment_form[author]' => 'Jacques',
-            'comment_form[text]' => 'Some feedback from an automated functional test',
-            'comment_form[email]' => 'me@automat.ed',
-            'comment_form[photo]' => dirname(__DIR__, 2).'/public/images/under-construction.gif',
-        ]);
-        $this->assertResponseRedirects();
-        $client->followRedirect();
-        $this->assertSelectorExists('div:contains("There are 2 comments")');
-    }
+
 }
