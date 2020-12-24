@@ -36,7 +36,7 @@ class ConferenceController extends AbstractController
     public function conferenceHeader(ConferenceRepository $conferenceRepository): Response
     {
         $response = new Response($this->twig->render('conference/header.html.twig', [
-            'conference'    => $conferenceRepository->findAll(),
+            'conferences'    => $conferenceRepository->findAll(),
         ]));
 
         $response->setSharedMaxAge(3600);
