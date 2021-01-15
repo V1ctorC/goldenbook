@@ -62,7 +62,8 @@ class CommentMessageHandler implements MessageHandlerInterface
 
         } elseif ($this->workflow->can($comment, 'publish') || $this->workflow->can($comment, 'publish_ham')) {
 
-            $this->notifier->send(new CommentReviewNotification($comment), ...$this->notifier->getAdminRecipients());
+            $notification = new CommentReviewNotification($comment, $message->getReviewUrl());
+            $this->notifier->send($notification, ...$this->notifier->getAdminRecipients());
 
             //$this->workflow->apply($comment, $this->workflow->can($comment, 'publish') ? 'publish' : 'publish_ham');
             //$this->entityManager->flush();
