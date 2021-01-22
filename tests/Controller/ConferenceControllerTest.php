@@ -12,7 +12,7 @@ class ConferenceControllerTest extends WebTestCase
     public function testSomething()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/en/');
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h2', 'Give your feedback !');
@@ -21,7 +21,7 @@ class ConferenceControllerTest extends WebTestCase
     public function testCommentSubmission()
     {
         $client = static::createClient();
-        $client->request('GET', '/conference/madrid-2018');
+        $client->request('GET', '/en/conference/madrid-2018');
         $client->submitForm('Submit', [
             'comment_form[author]' => 'Jacques',
             'comment_form[text]' => 'Some feedback from an automated functional test',
@@ -36,13 +36,13 @@ class ConferenceControllerTest extends WebTestCase
         self::$container->get(EntityManagerInterface::class)->flush();
 
         $client->followRedirect();
-        $this->assertSelectorExists('div:contains("There are 1 comments")');
+        $this->assertSelectorExists('div:contains("There is one comment")');
     }
 
     public function testConferencePage()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/en/');
 
         $this->assertCount(3, $crawler->filter('h4'));
 
@@ -52,7 +52,7 @@ class ConferenceControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h2', 'Madrid 2018');
         $this->assertRouteSame('conference');
-        $this->assertSelectorExists('p:contains("No comment for this conference.")');
+        $this->assertSelectorExists('p:contains("There are no comments.")');
     }
 
 
